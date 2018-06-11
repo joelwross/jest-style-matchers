@@ -1,0 +1,24 @@
+{
+  "name": "jest-style-matchers",
+  "version": "0.1.0",
+  "description": "Custom Jest matchers for style linting. Supports HTML, CSS, and JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelwross/jest-style-matchers.git"
+  },
+  "author": "Joel Ross <joelross@uw.edu>",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^4.19.1",
+    "htmllint": "^0.7.2",
+    "stylelint": "^9.2.1",
+    "stylelint-config-recommended": "^2.1.0"
+  },
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2"
+  }
+}
