@@ -32,7 +32,7 @@ module.exports = {
   },
 
   async toHaveNoCssLintErrorsAsync(files, config) {
-    let fullConfig = Object.assign({files:files}, {config: Object.assign(defaultCssConfig, config)});
+    let fullConfig = Object.assign({files:files}, Object.assign(defaultCssConfig, config));
     // console.log(fullConfig);
     let validityObj = await stylelint.lint(fullConfig);
 
