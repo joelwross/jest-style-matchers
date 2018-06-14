@@ -1,6 +1,6 @@
 {
   "name": "jest-style-matchers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Custom Jest matchers for style linting. Supports HTML, CSS, and JavaScript.",
   "main": "index.js",
   "scripts": {
