@@ -31,6 +31,7 @@ In particular, you should make the following changes:
   - Additionally, make sure that [email](https://css-tricks.com/snippets/html/mailto-links/) and [telephone](https://css-tricks.com/the-current-state-of-telephone-links/) number are both links with proper URI protocols!
 
 ## Testing
+
 This exercise includes a set of unit tests to help check your work. You can run the test suite using
 
 ```bsh
