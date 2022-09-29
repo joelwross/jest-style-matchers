@@ -3,7 +3,8 @@
 const fs = require('fs');
 const htmllint = require('htmllint');
 const stylelint = require('stylelint');
-const ESLintEngine = require('eslint').CLIEngine;
+
+const { ESLint } = require("eslint");
 
 const defaultCssConfig = {config:{"extends": "stylelint-config-recommended"}}
 
@@ -55,31 +56,33 @@ module.exports = {
   
 
   //takes in an array of sources and a configuration object for ESLint
-  toHaveNoEsLintErrors(sourcesList, options) {
-    const linter = new ESLintEngine(options); //load the configuration
-    let report = linter.executeOnFiles(sourcesList); //lint the sources
+  async toHaveNoEsLintErrors(sourcesList, options) {
+    const linter = new ESLint(options); //load the configuration
+    let report = await linter.lintFiles(sourcesList); //lint the sources
 
     const SEVERITY_MSG = { 1: "Warn", 2: "Error" }; //for printing
 
+    const msgCount = report.reduce((msgCount, lintResult) => {
+      return msgCount + lintResult.messages.length
+    }, 0)
+
     //what to return
-    const pass = report.errorCount === 0;
+    const pass = msgCount === 0;
     if (pass) {
       return { pass: true, message: () => "expected JavaScript to show linting errors" };
     }
     else {
-      //doesn't seem to be handling multiple files correctly...
-      return {
-        pass: false, message: () => (
-          //loop through and build the result string
-          report.results.reduce((fout, fileMessages) => {
-            return (
-              fileMessages.filePath + '\n' +
-              fileMessages.messages.reduce((out, msg) => {
-                return out + `    ${SEVERITY_MSG[msg.severity]}: ${msg.message} At line ${msg.line}, column ${msg.column}` + '\n';
-              }, '')
-            )
+      //concat all of the messages across files
+      const output = report.reduce((outString, fileLintResult) => {
+        return outString + 
+          fileLintResult.filePath + '\n' +
+          fileLintResult.messages.reduce((out, msg) => {
+            return out + `    ${SEVERITY_MSG[msg.severity]}: ${msg.message} At line ${msg.line}, column ${msg.column}` + '\n';
           }, '')
-        )
+      }, '')
+
+      return {
+        pass: false, message: () => output
       };
     }
   },
